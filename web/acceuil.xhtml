@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>#{langues.accueil}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+
+        <h:form>
+
+            <br/>
+            <br/>
+            <br/>
+
+            <br/>
+            <br/>
+            <br/>
+
+            <h:panelGrid style="width: 80% ; margin-left: 10%" columns="3">
+                <a href="http://localhost:8080/PDSD/faces/login.xhtml" style="margin-left:35%;">
+                    <img src="#{request.contextPath}/resources/menu_images/pdsd.png" style="cursor:pointer;width: 300px;height: 200px" />
+                </a>
+            </h:panelGrid>
+
+            <br/>
+            <br/>
+            <br/>
+
+            <h:panelGrid style="width: 80%; margin-left: 10%" columns="2"> 
+                
+                <a href="http://localhost:8080/PRCDS/faces/login.xhtml" style="margin-left:24%;">
+                    <img src="#{request.contextPath}/resources/menu_images/prcds.png" style="cursor:pointer;width: 300px;height: 200px" />
+                </a>
+                
+                <p:commandLink action="/login?faces-redirect=true" actionListener="#{loginController.initDistric()}"  style="margin-left:14%;">
+                    <h:graphicImage url="/resources/menu_images/suivi_pdsd.png" style="cursor:pointer;width: 300px;height: 200px" />
+                </p:commandLink>                
+            </h:panelGrid>
+
+            <br/>
+            <br/>
+            <br/>
+
+            <h:panelGrid style="width: 80% ; margin-left: 10%" columns="3">                 
+                <p:commandLink action="/login?faces-redirect=true" actionListener="#{loginController.initRegion()}" style="margin-left:35%;">
+                    <h:graphicImage url="/resources/menu_images/suivi_prcds.png" style="cursor:pointer;width: 300px;height: 200px" />
+                </p:commandLink>                
+            </h:panelGrid>
+
+        </h:form>
+
+    </h:body>
+</html>

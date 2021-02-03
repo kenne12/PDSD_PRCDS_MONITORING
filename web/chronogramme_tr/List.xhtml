@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <h:form id="ChronogrammeListForm">
+
+        <p:growl id="growl" showDetail="true"/>
+
+        <center>
+            <p:commandButton icon="ui-icon-refresh" value="Changer Trimestre" update=":SessionCreerDlg" actionListener="#{loginController.resetSession()}" /> 
+        </center>
+
+        <br/>
+
+        <center>
+            <h2>#{langues.chronogramme_} / #{chronogrammetrController.annee.nom} / #{chronogrammetrController.periodederattachement.nom}</h2>
+        </center>
+
+        <p:contextMenu id="ExercieDataTableContextMenu" for="datalist">  
+            <p:menuitem value="#{langues.Edit}" onclick="document.getElementById('ChronogrammeListForm:editButton').click();" icon="ui-icon-pencil"/>            
+            <p:separator/>                 
+        </p:contextMenu>
+
+        <br/>
+
+        <p:panel style="background-color: blanchedalmond" id="axe" header="#{chronogrammetrController.axe.code} - #{loginController.language eq 'en' ? chronogrammetrController.axe.nomEn : chronogrammetrController.axe.nomFr}">
+
+            <p:panel id="sousaxe" header="#{chronogrammetrController.sousaxe.code} - #{loginController.language eq 'en' ? chronogrammetrController.sousaxe.nomEn : chronogrammetrController.sousaxe.nomFr}">
+
+                <p:dataTable id="datalist"
+                             value="#{chronogrammetrController.tacheregionPeriodes}"
+                             var="item"
+                             rowKey="#{item.idtacheregionPeriode}"
+                             paginator="true"
+                             rows="100"
+                             style="width: 100%;"
+                             rowIndexVar="index"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             selectionMode="single"
+                             draggableColumns="true"
+                             resizableColumns="true"
+                             scrollHeight="100"
+                             selection="#{chronogrammetrController.tacheregionPeriode}"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+
+                    <p:ajax event="rowSelect" update="" listener="#{chronogrammetrController.activeButton()}" />
+                    <p:ajax event="rowDblselect" onsuccess="document.getElementById('ChronogrammeListForm:viewButton').click();" listener="#{chronogrammetrController.activeButton()}"/>
+
+                    <p:columnGroup type="header">                                                              
+                        <p:row>
+                            <p:column rowspan="2" colspan="2" headerText="#{langues.interventionpnds}"/>                            
+                            <p:column rowspan="2" colspan="3" headerText="#{langues.Active}"/>
+                            <p:column rowspan="2" colspan="2" headerText="#{langues.tache_}"/>
+                            <p:column colspan="#{chronogrammetrController.periodes.size()}" headerText="#{langues.mois}"/>
+                            <p:column style="width: 25px" headerText="Action" rowspan="2"/>
+                        </p:row>
+                        <p:row>
+                            <ui:repeat value="#{chronogrammetrController.periodes}" var="p">
+                                <p:column class="hardBreak" headerText="#{p.nom}" />
+                            </ui:repeat>
+                        </p:row>
+                    </p:columnGroup>
+
+                    <p:column style="height: 40px;word-wrap: break-word" colspan="2">
+                        <h:outputText class="hardBreak" value="#{item.idtacheregion.idactivitestructure.idactiviteRegion.idresultatattendu.idindicateur.idinterventionpnds.idcategorieintervention.idsousaxe.code} - #{loginController.language eq 'en' ? item.idtacheregion.idactivitestructure.idactiviteRegion.idresultatattendu.idindicateur.idinterventionpnds.idcategorieintervention.idsousaxe.nomEn : item.idtacheregion.idactivitestructure.idactiviteRegion.idresultatattendu.idindicateur.idinterventionpnds.idcategorieintervention.idsousaxe.nomFr}"/>
+                    </p:column>                   
+
+                    <p:column colspan="3">
+                        <h:outputText class="hardBreak" value="#{item.idtacheregion.idactivitestructure.idactiviteRegion.nom}"/>
+                    </p:column>
+
+                    <p:column colspan="2">
+                        <h:outputText class="hardBreak" value="#{item.idtacheregion.libelle}" />
+                    </p:column>
+
+                    <p:columns value="#{chronogrammetrController.periodes_2}" var="var" style="text-align: center">
+                        <center>
+                            <p:selectBooleanCheckbox disabled="true" value="#{chronogrammetrController.findChronogramme(item, var)}"/>
+                        </center>
+                    </p:columns>
+
+                    <p:column >
+                        <p:commandButton icon="ui-icon-pencil" >
+                            <p:ajax event="click" update=":ChronogrammeCreateForm" listener="#{chronogrammetrController.openChronogrammeDialog(item)}" />
+                        </p:commandButton>                                     
+                    </p:column>
+
+                </p:dataTable>
+
+                <h:panelGrid style="width: 70%;margin-left: 15%" columns="2">
+                    <p:commandButton value="#{langues.sous_axe_precedent}" update="axe,sousaxe,datalist" actionListener="#{chronogrammetrController.precSousAxe()}" oncomplete="javascript:location.reload();"/>
+                    <p:commandButton value="#{langues.sous_axe_suivant}" update="axe,sousaxe,datalist" style="margin-left: 50%" actionListener="#{chronogrammetrController.nextSousaxe()}" oncomplete="javascript:location.reload();"/>
+                </h:panelGrid>
+
+            </p:panel>
+
+            <h:panelGrid style="width: 80%;margin-left: 10%" columns="2">
+                <p:commandButton value="#{langues.axe_precedent}" update="axe,sousaxe,datalist" actionListener="#{chronogrammetrController.precAxe()}" oncomplete="javascript:location.reload();"/>
+                <p:commandButton style="margin-left: 60%" value="#{langues.axe_suivant}" update="axe,sousaxe,datalist" actionListener="#{chronogrammetrController.nextAxe()}" oncomplete="javascript:location.reload();"/>
+            </h:panelGrid>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+
+    </h:form>
+</ui:composition>

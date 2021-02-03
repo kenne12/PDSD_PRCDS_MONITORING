@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <p:dialog  id="ChronogrammeCreateDlg" 
+                   widgetVar="ChronogrammeCreateDialog" 
+                   modal="true" resizable="true"
+                   appendTo="@(body)" 
+                   header="#{langues.chronogramme_}"
+                   width="500"
+                   height="250">
+
+            <h:form id="ChronogrammeCreateForm">
+                <br/>
+
+                <h:panelGroup id="display">
+
+                    <center>
+                        <p:selectManyCheckbox id="grid2" value="#{chronogrammetdController.selectedP}" layout="responsive" columns="3" converter="periodeConverter" required="true">
+                            <f:selectItems value="#{chronogrammetdController.periodes_1}" var="period" itemLabel="#{period.nom}" itemValue="#{period}" />
+                        </p:selectManyCheckbox>
+                    </center>
+                    
+                    <p:separator/>
+
+                    <center>         
+                        <p:commandButton style="color: red;" icon="ui-icon-close" value="#{langues.fermer}" onclick="PF('ChronogrammeCreateDialog').hide()" update=":ChronogrammeListForm:datalist"/>
+                        <p:commandButton  icon="ui-icon-check" value="#{langues.valider}" update=":ChronogrammeListForm:datalist" actionListener="#{chronogrammetdController.saveChronogramme()}"/>
+                    </center> 
+
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

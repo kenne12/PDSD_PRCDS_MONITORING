@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="EvaluationListForm">
+
+        <p:growl id="growl" showDetail="true"/>
+
+        <br/>
+        <center>
+            <h2>Valeurs réalisées annuelle des indicateurs /#{jalondController.annee.nom}</h2>
+        </center>
+
+        <p:contextMenu id="ExercieDataTableContextMenu" for="datalist">  
+            <p:menuitem value="#{langues.Edit}" onclick="document.getElementById('EvaluationListForm:editButton').click();" icon="ui-icon-pencil"/>            
+            <p:separator/>                 
+        </p:contextMenu>
+
+        <br/>
+
+        <p:panel style="background-color: blanchedalmond" id="axe" header="#{jalondController.axe.code} - #{loginController.language eq 'en' ?  jalondController.axe.nomEn : jalondController.axe.nomFr}">
+
+            <p:panel id="sousaxe" header="#{jalondController.sousaxe.code} - #{loginController.language eq 'en' ?  jalondController.sousaxe.nomEn : jalondController.sousaxe.nomFr}">
+
+                <p:dataTable id="datalist"
+                             value="#{jalondController.cibles}"
+                             var="item"
+                             rowKey="#{item.idcible}"
+                             paginator="true"
+                             rows="100"
+                             style="width: 100%;"
+                             rowIndexVar="index"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             selectionMode="single"
+                             draggableColumns="true"
+                             resizableColumns="true"
+                             scrollHeight="100"
+                             selection="#{jalondController.cible}"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+
+                    <p:ajax event="rowSelect" listener="#{jalondController.activeButton()}" />
+                    <p:ajax event="rowDblselect" onsuccess="document.getElementById('EvaluationListForm:viewButton').click();" listener="#{jalondController.activeButton()}"/>
+
+                    <p:columnGroup type="header">
+                        <p:row>
+                            <p:column rowspan="2" class="hardBreak" colspan="3" headerText="#{langues.interventionpnds}" />
+                            <p:column rowspan="2" class="hardBreak" colspan="3" headerText="#{langues.Indicateur}" />
+                            <p:column rowspan="2" class="hardBreak" headerText="#{langues.cible_nationale}" />
+                            <p:column rowspan="2" class="hardBreak" headerText="#{langues.cible_} #{jalondController.annee.nom}"/>
+                            <p:column colspan="#{jalondController.periodederattachements.size()}" headerText="Périodes" />
+                            <p:column rowspan="2" headerText="Total"/>
+                        </p:row>
+                        <p:row>
+                            <ui:repeat value="#{jalondController.periodederattachements}" var="p">
+                                <p:column class="hardBreak" headerText="#{p.nom}" />
+                            </ui:repeat>
+                        </p:row>
+                    </p:columnGroup>
+
+                    <p:column colspan="3" style="word-wrap: break-word;height: 54px">
+                        <h:outputText class="hardBreak" value="#{item.idindicateur.idinterventionpnds.idcategorieintervention.code} #{loginController.language eq 'en' ?  item.idindicateur.idinterventionpnds.idcategorieintervention.nomEn : item.idindicateur.idinterventionpnds.idcategorieintervention.nomFr}"/>
+                    </p:column>
+
+                    <p:column colspan="3" style="word-wrap: break-word">
+                        <h:outputText class="hardBreak" value="#{loginController.language eq 'en' ?  item.idindicateur.nomEn : item.idindicateur.nomFr}" />
+                    </p:column>
+
+                    <p:column style="word-wrap: break-word ; text-align: center">
+                        <h:outputText class="hardBreak" value="#{item.idindicateur.ciblenationale}" />
+                    </p:column>
+
+                    <p:column style="text-align: center">
+                        <h:outputText class="hardBreak" value="#{item.valeur}" />
+                    </p:column>
+
+                    <p:columns value="#{jalondController.periodederattachements}" var="var" style="text-align: center" >
+                        <h:outputText class="hardBreak" value="#{jalondController.findResult(item,var).valeurrealisee}"/>
+                    </p:columns>
+
+                    <p:column style="text-align: center">
+                        <h:outputText  value="#{jalondController.sommeData(item)}" />
+                    </p:column>
+                </p:dataTable>
+
+                <h:panelGrid style="width: 70%;margin-left: 15%" columns="2">
+                    <p:commandButton value="#{langues.sous_axe_precedent}" update="axe,sousaxe,datalist" actionListener="#{jalondController.precSousAxe()}" oncomplete="javascript:location.reload();"/>
+                    <p:commandButton value="#{langues.sous_axe_suivant}" update="axe,sousaxe,datalist" style="margin-left: 50%" actionListener="#{jalondController.nextSousaxe()}" oncomplete="javascript:location.reload();"/>
+                </h:panelGrid>
+            </p:panel>
+
+            <h:panelGrid style="width: 80%;margin-left: 10%" columns="2">
+                <p:commandButton value="#{langues.axe_precedent}" update="axe,sousaxe,datalist" actionListener="#{jalondController.precAxe()}" oncomplete="javascript:location.reload();"/>
+                <p:commandButton style="margin-left: 60%" value="#{langues.axe_suivant}" update="axe,sousaxe,datalist" actionListener="#{jalondController.nextAxe()}" oncomplete="javascript:location.reload();"/>
+            </h:panelGrid>
+
+        </p:panel>
+
+    </h:form>
+</ui:composition>

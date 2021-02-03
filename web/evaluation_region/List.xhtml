@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <h:form id="EvaluationListForm">
+
+        <p:growl id="growl" showDetail="true"/>
+        
+        <center>
+            <p:commandButton icon="ui-icon-refresh" value="Changer Trimestre" update=":SessionCreerDlg" actionListener="#{loginController.resetSession()}" /> 
+        </center>
+
+        <br/>
+        <center>
+            <h2>#{langues.suivi_indicateur} / #{evaluationRegionController.periodederattachement.code} /#{evaluationRegionController.annee.nom}</h2>
+        </center>
+
+        <p:contextMenu id="ExercieDataTableContextMenu" for="datalist">  
+            <p:menuitem value="#{langues.Edit}" onclick="document.getElementById('EvaluationListForm:editButton').click();" icon="ui-icon-pencil"/>            
+            <p:separator/>                 
+        </p:contextMenu>
+
+        <br/>
+
+        <p:panel style="background-color: blanchedalmond" id="axe" header="#{evaluationRegionController.axe.code} - #{loginController.language eq 'en' ?  evaluationRegionController.axe.nomEn : evaluationRegionController.axe.nomFr}">
+
+            <p:panel id="sousaxe" header="#{evaluationRegionController.sousaxe.code} - #{loginController.language eq 'en' ?  evaluationRegionController.sousaxe.nomEn : evaluationRegionController.sousaxe.nomFr}">
+
+                <p:dataTable id="datalist"
+                             value="#{evaluationRegionController.cibleRegions}"
+                             var="item"
+                             rowKey="#{item.idcibleRegion}"
+                             paginator="true"
+                             rows="100"
+                             style="width: 100%;"
+                             rowIndexVar="index"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             selectionMode="single"
+                             draggableColumns="true"
+                             resizableColumns="true"
+                             scrollHeight="100"
+                             selection="#{evaluationRegionController.cibleRegion}"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+
+                    <p:ajax event="rowSelect" listener="#{evaluationRegionController.activeButton()}" />
+                    <p:ajax event="rowDblselect" onsuccess="document.getElementById('EvaluationListForm:viewButton').click();" listener="#{evaluationRegionController.activeButton()}"/>
+
+                    <p:columnGroup type="header">
+                        <p:row>
+                            <p:column class="hardBreak" colspan="3" headerText="#{langues.interventionpnds}" />
+                            <p:column class="hardBreak" colspan="3" headerText="#{langues.Indicateur}" />
+                            <p:column class="hardBreak" headerText="#{langues.cible_n}" />
+                            <p:column class="hardBreak" headerText="#{langues.cible_} #{evaluationRegionController.annee.nom}"/>
+                            <p:column class="hardBreak" headerText="#{langues.cible_} #{evaluationRegionController.periodederattachement.code}"/>
+                            <p:column class="hardBreak" headerText="#{langues.valeur_realisee_} #{evaluationRegionController.periodederattachement.code}" />
+                            <p:column class="hardBreak" headerText="#{langues.ecart}"/>
+                            <p:column class="hardBreak" colspan="2" headerText="#{langues.Observation}"/>
+                            <p:column class="hardBreak" headerText="#{langues.action}"/>
+                        </p:row>
+                    </p:columnGroup>
+
+                    <p:column colspan="3" style="word-wrap: break-word;height: 54px">
+                        <h:outputText class="hardBreak" value="#{item.idindicateur.idinterventionpnds.idcategorieintervention.code} #{loginController.language eq 'en' ?  item.idindicateur.idinterventionpnds.idcategorieintervention.nomEn : item.idindicateur.idinterventionpnds.idcategorieintervention.nomFr}"/>
+                    </p:column>
+
+                    <p:column colspan="3" style="word-wrap: break-word">
+                        <h:outputText class="hardBreak" value="#{loginController.language eq 'en' ?  item.idindicateur.nomEn : item.idindicateur.nomFr}" />
+                    </p:column>
+
+                    <p:column style="word-wrap: break-word ; text-align: center">
+                        <h:outputText class="hardBreak" value="#{item.idindicateur.ciblenationale}" />
+                    </p:column>
+
+                    <p:column style="text-align: center">
+                        <h:outputText class="hardBreak" value="#{item.valeur}" />
+                    </p:column>
+                    
+                    <p:column style="text-align: center" >
+                        <h:outputText class="hardBreak" value="#{evaluationRegionController.findResult(item).valeurcible}" />
+                    </p:column>    
+
+                    <p:column style="text-align: center" >
+                        <h:outputText class="hardBreak" value="#{evaluationRegionController.findResult(item).valeurrealisee}" />
+                    </p:column>                   
+
+                    <p:column style="text-align: center">
+                        <h:outputText class="hardBreak" value="#{evaluationRegionController.findResult(item).ecart}" />
+                    </p:column>
+
+                    <p:column colspan="2">
+                        <h:outputText class="hardBreak" value="#{evaluationRegionController.findResult(item).commentaire}" />
+                    </p:column>
+
+                    <p:column >
+                        <p:commandButton value="#{langues.details}" >
+                            <p:ajax update=":EvaluationEditForm" listener="#{evaluationRegionController.viewDetail(item)}" />
+                        </p:commandButton>                                     
+                    </p:column>
+
+                </p:dataTable>
+
+                <center>
+                    <p:commandButton id="editButton" update=":EvaluationCreateForm,growl" actionListener="#{evaluationRegionController.uptadeTable()}" icon="ui-icon-pencil" value="#{langues.Edit}"  oncomplete="PF('EvaluationCreateDialog').show()"/>
+                </center>
+
+                <h:panelGrid style="width: 70%;margin-left: 15%" columns="2">
+                    <p:commandButton value="#{langues.sous_axe_precedent}" update="axe,sousaxe,datalist" actionListener="#{evaluationRegionController.precSousAxe()}" oncomplete="javascript:location.reload();"/>
+                    <p:commandButton value="#{langues.sous_axe_suivant}" update="axe,sousaxe,datalist" style="margin-left: 50%" actionListener="#{evaluationRegionController.nextSousaxe()}" oncomplete="javascript:location.reload();"/>
+                </h:panelGrid>
+
+            </p:panel>
+
+            <h:panelGrid style="width: 80%;margin-left: 10%" columns="2">
+                <p:commandButton value="#{langues.axe_precedent}" update="axe,sousaxe,datalist" actionListener="#{evaluationRegionController.precAxe()}" oncomplete="javascript:location.reload();"/>
+                <p:commandButton style="margin-left: 60%" value="#{langues.axe_suivant}" update="axe,sousaxe,datalist" actionListener="#{evaluationRegionController.nextAxe()}" oncomplete="javascript:location.reload();"/>
+            </h:panelGrid>
+
+        </p:panel>
+
+    </h:form>
+</ui:composition>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition  template="/template.xhtml">
+
+        <ui:define name="title">
+            <h:outputText value="Accueil"></h:outputText>
+        </ui:define> 
+
+        <ui:define  name="body">
+
+            <f:view locale="#{loginController.language}">
+
+                <div id="HomeMiddleDivsContainer">
+
+                </div>
+
+                <p:dialog showEffect="scale" hideEffect="scale" closable="false" closeOnEscape="false" visible="#{loginController.viewSession}" id="SessionCreateDlg" widgetVar="SessionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="SESSION">
+
+                    <h:form id="SessionCreateForm">
+
+                        <h:panelGroup id="display" >
+
+                            <h:panelGrid columns="2" columnClasses="column">
+
+                                <p:outputLabel rendered="#{loginController.mode.equals('district')}" value="#{langues.district}" for="district"/>
+                                <p:selectOneMenu rendered="#{loginController.mode.equals('district')}" filter="true" id="district" value="#{loginController.utilisateurdistrict.id}" required="true" requiredMessage="#{langues.district} : #{langues.requis}">
+                                    <f:selectItem itemLabel="#{langues.choisir}"/>
+                                    <f:selectItems value="#{loginController.utilisateurdistricts}" var="item" itemLabel="#{loginController.language eq 'en' ? item.iddistrict.nomEn : item.iddistrict.nomFr }" itemValue="#{item.id}"/>
+                                    <p:ajax update="structure" listener="#{loginController.updateStructure()}" />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel rendered="#{loginController.mode.equals('region')}" value="#{langues.region}" for="region"/>
+                                <p:selectOneMenu rendered="#{loginController.mode.equals('region')}" filter="true" id="region" value="#{loginController.utilisateurRegion.idutilisateurRegion}" required="true" requiredMessage="#{langues.region} : #{langues.requis}">
+                                    <f:selectItem itemLabel="#{langues.choisir}"/>
+                                    <f:selectItems value="#{loginController.utilisateurRegions}" var="u_r" itemLabel="#{loginController.language eq 'en' ? u_r.idregion.nomEn : u_r.idregion.nomFr}" itemValue="#{u_r.idutilisateurRegion}"/>
+                                    <p:ajax update="structure" listener="#{loginController.updateStructure()}" />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{langues.structure}" for="structure"/>
+                                <p:selectOneMenu filter="true" id="structure" value="#{loginController.structure.idstructure}" required="true" requiredMessage="#{langues.structure} : #{langues.requis}">
+                                    <f:selectItem itemLabel="#{langues.choisir}"/>
+                                    <f:selectItems value="#{loginController.structures}" var="obj" itemLabel="#{loginController.language eq 'en' ? obj.nomEn:obj.nomFr}" itemValue="#{obj.idstructure}"/>
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{langues.Annee}" for="annee"/>
+                                <p:selectOneMenu filter="true" id="annee" value="#{loginController.annee.idannee}" required="true" requiredMessage="#{langues.Annee} : #{langues.requis}">
+                                    <f:selectItem itemLabel="#{langues.choisir}"/>
+                                    <f:selectItems value="#{loginController.annees}" var="annee" itemLabel="#{annee.nom}" itemValue="#{annee.idannee}"/>
+                                </p:selectOneMenu>
+
+                            </h:panelGrid>
+
+                            <p:separator />
+
+                            <center>
+
+                                <p:commandButton actionListener="#{loginController.initSession()}" value="#{langues.Valider}" update=":SessionCreateDlg" oncomplete="javascript:location.reload();">
+                                    <p:confirm header="#{langues.ConfirmationHeader}" message="Voulez - vous sélectionner ce district ?" icon="ui-icon-alert"/>
+                                </p:commandButton>
+
+                            </center>
+
+                        </h:panelGroup>
+
+                        <ui:include src="/confirmation.xhtml"/>
+
+                    </h:form>
+
+                </p:dialog>
+
+            </f:view>
+
+        </ui:define>
+    </ui:composition>
+
+</html>

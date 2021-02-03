@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <p:dialog  id="EvaluationEditDlg"
+                   widgetVar="EvaluationEditDialog" 
+                   modal="true" resizable="true" 
+                   appendTo="@(body)" header="Modification des cibles periodiques"
+                   width="70%"
+                   height="550">
+            <h:form id="EvaluationEditForm">
+                <br/>
+
+                <h:panelGroup id="display">
+
+                    <center>
+
+                        <br/>
+                        <h:panelGrid columns="2">
+
+                            <p:outputLabel value="#{langues.Axe}"/>
+                            <p:outputLabel value="#{jalondController.cible.idindicateur.idinterventionpnds.idcategorieintervention.idsousaxe.idaxe.code} - #{loginController.language eq 'en' ? jalondController.cible.idindicateur.idinterventionpnds.idcategorieintervention.idsousaxe.idaxe.nomEn : jalondController.cible.idindicateur.idinterventionpnds.idcategorieintervention.idsousaxe.idaxe.nomFr}"/>
+
+                            <p:outputLabel value="#{langues.sousaxe}"/>
+                            <p:outputLabel value="#{jalondController.cible.idindicateur.idinterventionpnds.idcategorieintervention.idsousaxe.code} - #{loginController.language eq 'en' ? jalondController.cible.idindicateur.idinterventionpnds.idcategorieintervention.idsousaxe.nomEn : jalondController.cible.idindicateur.idinterventionpnds.idcategorieintervention.idsousaxe.nomFr}"/>
+
+                            <p:outputLabel value="#{langues.Categorie_intervention}"/>
+                            <p:outputLabel value="#{loginController.language eq 'en' ? jalondController.cible.idindicateur.idinterventionpnds.idcategorieintervention.nomEn : jalondController.cible.idindicateur.idinterventionpnds.idcategorieintervention.nomFr}"/>
+
+                            <p:outputLabel value="#{langues.interventionpnds}"/>
+                            <p:inputTextarea disabled="true" cols="120" rows="4" value="#{loginController.language eq 'en' ?  jalondController.cible.idindicateur.idinterventionpnds.nomEn : jalondController.cible.idindicateur.idinterventionpnds.nomFr}"/>
+
+                            <p:outputLabel value="#{langues.Indicateur}"/>
+                            <p:inputTextarea disabled="true" cols="120" rows="3" value="#{loginController.language eq 'en' ?  jalondController.cible.idindicateur.nomEn : jalondController.cible.idindicateur.nomFr}"/>
+
+                            <p:outputLabel value="#{langues.EditIndicateurTitle_ciblenationale}"/>
+                            <p:outputLabel value="#{jalondController.cible.idindicateur.ciblenationale}"/>
+
+                            <p:outputLabel value="#{langues.valeur_cible} #{jalondController.annee.nom}"/>
+                            <p:outputLabel value="#{jalondController.cible.valeur}"/>
+
+                        </h:panelGrid>
+
+                    </center>
+
+                    <p:separator/>
+
+                    <p:dataTable id="datalist_tache" value="#{jalondController.ciblevaleurs}" var="item"                                     
+                                 paginator="true"
+                                 rowKey="#{item.idciblevaleur}"
+                                 rows="10"
+                                 editable="true"
+                                 editMode="cell"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 style="width: 50%;margin-top:1% !important; text-align:left; margin-left:25%; font-weight: bold; font-style: oblique;"
+                                 rowIndexVar="index"
+                                 emptyMessage="#{langues.vide}"
+                                 widgetVar="fonctionTable"
+                                 draggableColumns="true"
+                                 resizableColumns="true">
+
+                        <p:column style="width: 35%">
+                            <f:facet name="header">
+                                <h:outputText value="#{langues.periode}" class="hardBreak"/>
+                            </f:facet>
+                            <h:outputText class="hardBreak" value="#{item.idperioderattachement.nom}"/>
+                        </p:column>
+
+                        <p:column style="width: 18%;text-align: center" headerText="#{langues.Observation}">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{item.valeurcible}" class="hardBreak"/>                                       
+                                </f:facet>
+                                <f:facet  name="input">
+                                    <p:inputText value="#{item.valeurcible}" >
+                                        <p:ajax event="keyup"/>
+                                    </p:inputText>     
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                    </p:dataTable>
+
+                    <p:separator style="width: 50% ; margin-left: 25%"/>
+
+                    <center>
+                        <p:commandButton icon="ui-icon-close" value="#{langues.Cancel}" onclick="PF('EvaluationEditDialog').hide()"/>
+                        <p:commandButton icon="ui-icon-check" value="#{langues.Valider}" update="display,:EvaluationListForm:datalist,:EvaluationListForm:growl" actionListener="#{jalondController.editData()}"/>
+                    </center>
+
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

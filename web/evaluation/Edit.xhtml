@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <p:dialog  id="EvaluationEditDlg"
+                   widgetVar="EvaluationEditDialog" 
+                   modal="true" resizable="true" 
+                   appendTo="@(body)" header="#{langues.suivi_indicateur}"
+                   width="90%"
+                   height="550">
+            <h:form id="EvaluationEditForm">
+                <br/>
+
+                <h:panelGroup id="display">
+
+                    <center>
+
+                        <br/>
+                        <h:panelGrid columns="2">
+
+                            <p:outputLabel value="#{langues.Axe}"/>
+                            <p:outputLabel value="#{evaluationController.cible.idindicateur.idinterventionpnds.idcategorieintervention.idsousaxe.idaxe.code} - #{loginController.language eq 'en' ? evaluationController.cible.idindicateur.idinterventionpnds.idcategorieintervention.idsousaxe.idaxe.nomEn : evaluationController.cible.idindicateur.idinterventionpnds.idcategorieintervention.idsousaxe.idaxe.nomFr}"/>
+
+                            <p:outputLabel value="#{langues.sousaxe}"/>
+                            <p:outputLabel value="#{evaluationController.cible.idindicateur.idinterventionpnds.idcategorieintervention.idsousaxe.code} - #{loginController.language eq 'en' ? evaluationController.cible.idindicateur.idinterventionpnds.idcategorieintervention.idsousaxe.nomEn : evaluationController.cible.idindicateur.idinterventionpnds.idcategorieintervention.idsousaxe.nomFr}"/>
+
+                            <p:outputLabel value="#{langues.Categorie_intervention}"/>
+                            <p:outputLabel value="#{loginController.language eq 'en' ? evaluationController.cible.idindicateur.idinterventionpnds.idcategorieintervention.nomEn : evaluationController.cible.idindicateur.idinterventionpnds.idcategorieintervention.nomFr}"/>
+
+                            <p:outputLabel value="#{langues.interventionpnds}"/>
+                            <p:inputTextarea disabled="true" cols="120" rows="4" value="#{loginController.language eq 'en' ?  evaluationController.cible.idindicateur.idinterventionpnds.nomEn : evaluationController.cible.idindicateur.idinterventionpnds.nomFr}"/>
+
+                            <p:outputLabel value="#{langues.Indicateur}"/>
+                            <p:inputTextarea disabled="true" cols="120" rows="3" value="#{loginController.language eq 'en' ?  evaluationController.cible.idindicateur.nomEn : evaluationController.cible.idindicateur.nomFr}"/>
+
+                            <p:outputLabel value="#{langues.EditIndicateurTitle_ciblenationale}"/>
+                            <p:outputLabel value="#{evaluationController.cible.idindicateur.ciblenationale}"/>
+
+                            <p:outputLabel value="#{langues.valeur_cible}"/>
+                            <p:outputLabel value="#{evaluationController.cible.valeur}"/>
+
+                            <p:outputLabel value="#{langues.valeur_realisee}"/>
+                            <p:outputLabel value="#{evaluationController.ciblevaleur.valeurrealisee}"/>
+
+                            <p:outputLabel value="#{langues.ecart}"/>
+                            <p:outputLabel value="#{evaluationController.ciblevaleur.ecart}"/>
+
+                            <p:outputLabel value="#{langues.commentaire}"/>
+                            <p:inputTextarea disabled="true" cols="120" rows="5" value="#{evaluationController.ciblevaleur.commentaire}"/>
+
+                            <p:outputLabel value="#{langues.recommandations}"/>
+                            <p:inputTextarea disabled="true" cols="120" rows="5" value="#{evaluationController.ciblevaleur.recommandation}"/>
+
+                        </h:panelGrid>
+
+                    </center>
+
+                    <p:separator/>
+
+                    <p:dataTable id="datalist_tache" value="#{evaluationController.tachedistrictPeriodes}" var="item"                                     
+                                 paginator="true"
+                                 rowKey="#{item.idtachedistrictPeriode}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 style="width: 98%;margin-top:1% !important; text-align:left; margin-left:1%; font-weight: bold; font-style: oblique;"
+                                 rowIndexVar="index"
+                                 emptyMessage="#{langues.vide}"
+                                 widgetVar="fonctionTable"
+                                 draggableColumns="true"
+                                 resizableColumns="true">
+
+                        <f:facet name="header"> 
+                            <h:outputText class="hardBreak" value="#{langues.liste_des_taches}"/>
+                        </f:facet> 
+
+                        <p:column style="width: 35%">
+                            <f:facet name="header">
+                                <h:outputText value="#{langues.activitee}" class="hardBreak"/>
+                            </f:facet>
+                            <h:outputText class="hardBreak" value="#{item.idtachedistrict.idactivitestructure.idactivite.nom}"/>
+                        </p:column>
+
+                        <p:column style="width: 20%">
+                            <f:facet name="header">
+                                <h:outputText value="#{langues.tache}" class="hardBreak"/>
+                            </f:facet>
+                            <h:outputText class="hardBreak" value="#{item.idtachedistrict.libelle}"/>
+                        </p:column>
+
+                        <p:column style="width: 15%">
+                            <f:facet name="header">
+                                <h:outputText value="#{langues.structure}" class="hardBreak"/>
+                            </f:facet>
+                            <h:outputText class="hardBreak" value="#{item.idtachedistrict.idactivitestructure.idstructure.nomFr}"/>
+                        </p:column>
+
+                        <p:column style="width: 12%">
+                            <f:facet name="header">
+                                <h:outputText value="#{langues.niveau_avancement}" class="hardBreak"/>
+                            </f:facet>
+                            <h:outputText class="hardBreak" value="#{item.idniveauactivite.nom}"/>
+                        </p:column> 
+
+                        <p:column style="width: 18%">
+                            <f:facet name="header">
+                                <h:outputText value="#{langues.Observation}" class="hardBreak"/>
+                            </f:facet>
+                            <p:inputTextarea disabled="true" value="#{item.observation}"  cols="50" rows="3" style="width: 200px"/>
+                        </p:column> 
+
+                    </p:dataTable>
+
+                    <p:separator/>
+
+                    <center>
+
+                        <ui:repeat id="eval" value="#{evaluationController.niveauactivites1}" var="var_1" >
+                            <h:panelGrid columns="2">
+                                <h:outputText value="#{var_1.nom} /" style="font-size: 18px;color: red"/>
+                                <h:outputText value="#{evaluationController.evaluate(var_1)}" style="font-size: 18px;color: red"/>
+                            </h:panelGrid>                                                            
+                        </ui:repeat>
+
+                    </center>
+
+                    <p:separator/>
+
+                    <center>
+                        <p:commandButton style="" icon="ui-icon-close" value="#{langues.Cancel}" onclick="PF('EvaluationEditDialog').hide()"/>
+                        <p:commandButton style="" icon="ui-icon-check" value="#{langues.Valider}" update="display,:EvaluationListForm:datalist,:EvaluationListForm:growl" oncomplete="PF('EvaluationEditDialog').hide()"/>
+                    </center>
+
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

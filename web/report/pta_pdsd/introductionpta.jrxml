@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="introductionpta" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="12547730-1165-49f3-bbe1-6697693e9de6">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="idstructure" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="idannee" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+  public.region.idregion,
+  public.region.nom_fr AS regions,
+  public.district.iddistrict,
+  public.district.nom_fr AS districts,
+  public.structure.idstructure,
+  public.structure.nom_fr AS structures,
+  public.annee.idannee,
+  public.annee.nom,
+  public.partiehaute_structure.introdution,
+  public.partiehaute_structure.descriptionstructure
+FROM
+  public.district
+  INNER JOIN public.region ON (public.district.idregion = public.region.idregion)
+  INNER JOIN public.airesante ON (public.district.iddistrict = public.airesante.iddistrict)
+  INNER JOIN public.structure ON (public.airesante.idairesante = public.structure.idairesante)
+  INNER JOIN public.partiehaute_structure ON (public.structure.idstructure = public.partiehaute_structure.idstructure),
+  public.annee
+WHERE
+  public.structure.idstructure = $P{idstructure} AND
+  public.annee.idannee = $P{idannee}]]>
+	</queryString>
+	<field name="idregion" class="java.lang.Integer"/>
+	<field name="regions" class="java.lang.String"/>
+	<field name="iddistrict" class="java.lang.Integer"/>
+	<field name="districts" class="java.lang.String"/>
+	<field name="idstructure" class="java.lang.Integer"/>
+	<field name="structures" class="java.lang.String"/>
+	<field name="idannee" class="java.lang.Integer"/>
+	<field name="nom" class="java.lang.String"/>
+	<field name="introdution" class="java.lang.String"/>
+	<field name="descriptionstructure" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="85ddbe69-80c1-4dc9-8f17-21390713a011" x="0" y="8" width="769" height="22"/>
+				<textElement>
+					<font fontName="Times New Roman" size="18" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[INTRODUCTION]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="48" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="7fbfc9ef-4042-416d-8039-53661eff7c3c" stretchType="RelativeToBandHeight" x="0" y="0" width="769" height="48"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{introdution}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

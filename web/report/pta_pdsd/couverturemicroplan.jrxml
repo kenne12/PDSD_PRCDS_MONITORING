@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true" isSummaryWithPageHeaderAndFooter="true" uuid="3ec0e7e9-d2dc-4899-b130-4aef25c398e7">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="277"/>
+	<parameter name="idstructure" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="idannee" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\projects\\devEE\\reports\\suivi_prcds_pdsd\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+  public.region.idregion,
+  public.region.nom_fr AS regions,
+  public.district.iddistrict,
+  public.district.nom_fr AS districts,
+  public.structure.idstructure,
+  public.structure.nom_fr AS structures,
+  public.annee.idannee,
+  public.annee.nom
+FROM
+  public.district
+  INNER JOIN public.region ON (public.district.idregion = public.region.idregion)
+  INNER JOIN public.airesante ON (public.district.iddistrict = public.airesante.iddistrict)
+  INNER JOIN public.structure ON (public.airesante.idairesante = public.structure.idairesante),
+  public.annee
+WHERE
+  public.structure.idstructure = $P{idstructure} AND
+  public.annee.idannee = $P{idannee}]]>
+	</queryString>
+	<field name="idregion" class="java.lang.Integer"/>
+	<field name="regions" class="java.lang.String"/>
+	<field name="iddistrict" class="java.lang.Integer"/>
+	<field name="districts" class="java.lang.String"/>
+	<field name="idstructure" class="java.lang.Integer"/>
+	<field name="structures" class="java.lang.String"/>
+	<field name="idannee" class="java.lang.Integer"/>
+	<field name="nom" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="535" splitType="Stretch">
+			<frame>
+				<reportElement uuid="563e8b4f-cadc-4ef1-a33d-a297a1e58327" mode="Opaque" x="0" y="-18" width="802" height="553" backcolor="#FF0000"/>
+				<frame>
+					<reportElement uuid="888e3262-3ccb-4cc5-9bf8-ca8f803f1046" mode="Opaque" x="10" y="10" width="782" height="531" backcolor="#009933"/>
+					<frame>
+						<reportElement uuid="47018d62-f944-44d1-aad6-0e52731808bb" mode="Opaque" x="11" y="10" width="759" height="509" backcolor="#000000"/>
+						<frame>
+							<reportElement uuid="6dd09d32-69dc-4d51-b57a-3208367352ea" mode="Opaque" x="9" y="12" width="739" height="487" backcolor="#FFFFFF"/>
+							<box>
+								<topPen lineWidth="0.5"/>
+								<leftPen lineWidth="0.5"/>
+								<bottomPen lineWidth="0.5"/>
+								<rightPen lineWidth="0.5"/>
+							</box>
+							<image>
+								<reportElement uuid="07a9ba51-6adc-42b8-b63b-08ad08a67b1a" x="295" y="10" width="166" height="160"/>
+								<imageExpression><![CDATA["logominsante1.png"]]></imageExpression>
+							</image>
+							<staticText>
+								<reportElement uuid="4879cc4d-8070-4620-8315-4723dc371aec" x="19" y="24" width="240" height="20"/>
+								<textElement textAlignment="Center">
+									<font fontName="Times New Roman" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[République du Cameroun]]></text>
+							</staticText>
+							<staticText>
+								<reportElement uuid="69c1ba14-9dea-49ed-a6e8-a2ec313572ea" x="492" y="45" width="229" height="20"/>
+								<textElement textAlignment="Center">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Peace - Work - Fatherland]]></text>
+							</staticText>
+							<staticText>
+								<reportElement uuid="578dc557-d655-4b9a-b959-3ec21036a6f4" x="10" y="84" width="249" height="20"/>
+								<textElement textAlignment="Center">
+									<font fontName="Times New Roman" size="14" isBold="true" isItalic="true"/>
+								</textElement>
+								<text><![CDATA[Délégation Régionale de la Santé Publique]]></text>
+							</staticText>
+							<staticText>
+								<reportElement uuid="54782e8d-402e-4148-9a1c-bba37ad9f62a" x="10" y="64" width="249" height="20"/>
+								<textElement textAlignment="Center">
+									<font fontName="Times New Roman" size="14" isBold="true" isItalic="true"/>
+								</textElement>
+								<text><![CDATA[Ministère de la Santé Publique]]></text>
+							</staticText>
+							<staticText>
+								<reportElement uuid="31777380-a7e1-42f5-9c06-9e31ee7fcaa3" x="492" y="24" width="229" height="20"/>
+								<textElement textAlignment="Center">
+									<font fontName="Times New Roman" size="16" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Republic of Cameroon]]></text>
+							</staticText>
+							<staticText>
+								<reportElement uuid="71f06bd7-85c3-4061-9b80-25f0201e6605" x="492" y="85" width="229" height="20"/>
+								<textElement textAlignment="Center">
+									<font fontName="Times New Roman" size="14" isBold="true" isItalic="true"/>
+								</textElement>
+								<text><![CDATA[Regional Delegation of Public Health]]></text>
+							</staticText>
+							<staticText>
+								<reportElement uuid="e5737335-397f-4a26-9a55-10fc35dbac54" x="10" y="44" width="249" height="20"/>
+								<textElement textAlignment="Center">
+									<font fontName="Times New Roman" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Paix - Travail – Patrie]]></text>
+							</staticText>
+							<staticText>
+								<reportElement uuid="5e919a0e-4811-4a20-8630-8e7cc1882798" x="492" y="65" width="229" height="20"/>
+								<textElement textAlignment="Center">
+									<font fontName="Times New Roman" size="14" isBold="true" isItalic="true"/>
+								</textElement>
+								<text><![CDATA[Ministry of Public Health]]></text>
+							</staticText>
+							<textField>
+								<reportElement uuid="cc729dca-036a-4e28-9666-e26a6239b3c9" x="19" y="432" width="692" height="55" forecolor="#000000"/>
+								<textElement textAlignment="Center">
+									<font fontName="Times New Roman" size="34" isBold="true" isItalic="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA["STRUCTURE : " +$F{structures}]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement uuid="75b1d01b-212e-41a3-8770-0a6a31eb24a7" x="19" y="309" width="692" height="68" forecolor="#000000"/>
+								<textElement textAlignment="Center">
+									<font fontName="Times New Roman" size="48" isBold="true" isItalic="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA["REGION : " +$F{regions}]]></textFieldExpression>
+							</textField>
+							<textField>
+								<reportElement uuid="5d22ce8e-832b-4d0c-9b38-ec6b254fe49a" x="19" y="377" width="692" height="55" forecolor="#000000"/>
+								<textElement textAlignment="Center">
+									<font fontName="Times New Roman" size="40" isBold="true" isItalic="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA["DISTRICT : " +$F{districts}]]></textFieldExpression>
+							</textField>
+							<staticText>
+								<reportElement uuid="058b438d-a862-4e25-a997-c8e004749196" x="19" y="170" width="720" height="85" forecolor="#006600"/>
+								<textElement textAlignment="Center" verticalAlignment="Top">
+									<font fontName="Times New Roman" size="42" isBold="true" isItalic="true"/>
+								</textElement>
+								<text><![CDATA[MICRO - PLAN DE LA STRUCTURE ]]></text>
+							</staticText>
+							<textField>
+								<reportElement uuid="75b1d01b-212e-41a3-8770-0a6a31eb24a7" x="138" y="241" width="471" height="68" forecolor="#006600"/>
+								<textElement textAlignment="Center">
+									<font fontName="Times New Roman" size="54" isBold="true" isItalic="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{nom}]]></textFieldExpression>
+							</textField>
+						</frame>
+					</frame>
+				</frame>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement uuid="485ae5e7-dafc-4a96-9c25-14ebf6306c1d" x="689" y="0" width="80" height="15"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="Times New Roman" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="fda9126d-5d3f-44e0-8503-e200810d1b74" x="769" y="0" width="40" height="15"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Times New Roman" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="321">
+			<subreport>
+				<reportElement uuid="56b1bce2-10a9-46f4-a709-7b0f6c2cda43" positionType="Float" x="0" y="0" width="802" height="25"/>
+				<subreportParameter name="idstructure">
+					<subreportParameterExpression><![CDATA[$P{idstructure}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idannee">
+					<subreportParameterExpression><![CDATA[$P{idannee}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["introductionpta.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="cff69295-29d5-484b-9444-9181c8908d2b" positionType="Float" x="0" y="27" width="802" height="19"/>
+				<subreportParameter name="idstructure">
+					<subreportParameterExpression><![CDATA[$P{idstructure}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idannee">
+					<subreportParameterExpression><![CDATA[$P{idannee}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["descriptionstructure.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport runToBottom="true">
+				<reportElement uuid="08a769ea-b3e4-45f7-8bf0-82c0299dff38" positionType="Float" x="2" y="49" width="798" height="22"/>
+				<subreportParameter name="idstructure">
+					<subreportParameterExpression><![CDATA[$P{idstructure}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idannee">
+					<subreportParameterExpression><![CDATA[$P{idannee}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["syntheserh.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="c4c9f7c9-df7f-429b-bac6-498bf56a1b3b" positionType="Float" x="2" y="76" width="790" height="20"/>
+				<subreportParameter name="idstructure">
+					<subreportParameterExpression><![CDATA[$P{idstructure}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["syntheseinfraequip2.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="a542930f-76e6-4091-bdfa-b6dd8eb19626" positionType="Float" x="10" y="101" width="782" height="18"/>
+				<subreportParameter name="idstructure">
+					<subreportParameterExpression><![CDATA[$P{idstructure}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["recette.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="d2a64c41-76a7-4197-a3e0-5ce7386cbd50" positionType="Float" x="10" y="121" width="782" height="20"/>
+				<subreportParameter name="idstructure">
+					<subreportParameterExpression><![CDATA[$P{idstructure}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["depense.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="b4bd07c4-b09c-4200-be65-0e7ac086e40f" positionType="Float" x="10" y="144" width="782" height="19"/>
+				<subreportParameter name="idstructure">
+					<subreportParameterExpression><![CDATA[$P{idstructure}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["medicamenttraceurs.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport runToBottom="true">
+				<reportElement uuid="ff17721a-1cb6-4c0a-8ef4-2a94b638532d" positionType="Float" x="10" y="297" width="798" height="24"/>
+				<subreportParameter name="idstructure">
+					<subreportParameterExpression><![CDATA[$P{idstructure}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idannee">
+					<subreportParameterExpression><![CDATA[$P{idannee}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["cadrelogique.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="43b98ee6-5514-4174-a8cd-ee0139015470" positionType="Float" x="10" y="165" width="782" height="17"/>
+				<subreportParameter name="idstructure">
+					<subreportParameterExpression><![CDATA[$P{idstructure}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["infosanitaire.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="e7ddc661-b094-4c36-ad29-9f602ae8baec" positionType="Float" x="10" y="182" width="782" height="25"/>
+				<subreportParameter name="idstructure">
+					<subreportParameterExpression><![CDATA[$P{idstructure}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["gouvernance.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="50b24551-e24a-4f40-bef5-15b3831f57bb" positionType="Float" x="10" y="208" width="782" height="18"/>
+				<subreportParameter name="idstructure">
+					<subreportParameterExpression><![CDATA[$P{idstructure}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["projectiondesrecettes.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="5b5238f9-0547-4d36-8beb-b5b8d856e2db" positionType="Float" x="21" y="228" width="771" height="23"/>
+				<subreportParameter name="idstructure">
+					<subreportParameterExpression><![CDATA[$P{idstructure}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["besoininvestissementequiptypstruc.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport runToBottom="true">
+				<reportElement uuid="13843c63-d203-49ad-bc50-170fbf73c902" positionType="Float" x="11" y="252" width="776" height="16"/>
+				<subreportParameter name="idstructure">
+					<subreportParameterExpression><![CDATA[$P{idstructure}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["besoinsenivestissementtypestruct.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport runToBottom="true">
+				<reportElement uuid="40a0a60d-a4e3-4a76-b3ad-ccc1e729e47d" positionType="Float" x="11" y="268" width="781" height="13"/>
+				<subreportParameter name="idstructure">
+					<subreportParameterExpression><![CDATA[$P{idstructure}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idannee">
+					<subreportParameterExpression><![CDATA[$P{idannee}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["etatperformances.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="b1e790b9-3aad-44c3-b354-6bd9198764f8" positionType="Float" x="21" y="281" width="766" height="16"/>
+				<subreportParameter name="idstructure">
+					<subreportParameterExpression><![CDATA[$P{idstructure}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idannee">
+					<subreportParameterExpression><![CDATA[$P{idannee}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["priorisationpb.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <p:dialog  id="TacheCreateDlg" 
+                   widgetVar="TacheCreateDialog" 
+                   modal="true" resizable="true"
+                   appendTo="@(body)" 
+                   header="#{langues.taches}"
+                   width="1200"
+                   height="580">
+
+            <h:form id="TacheCreateForm">
+                <br/>
+
+                <h:panelGroup id="display">
+
+                    <center>         
+                        <p:commandButton style="color: red;" icon="ui-icon-close" value="#{langues.fermer}" onclick="PF('TacheCreateDialog').hide()" update=":TacheListForm:datalist"/>
+                        <p:commandButton  icon="ui-icon-plus" value="#{langues.ajouter_une_tache}" update=":AddTacheCreateForm" actionListener="#{tacheController.prepareAddTache()}"/>
+                    </center>
+
+                    <p:separator />
+                        
+                    
+                    <h:panelGrid columns="2" style="margin-left: 5%">
+                        
+                        <h:outputText value="Activité : " style="font-size: 17px"/>
+                        <h:outputText value="#{tacheController.activiteStructure.idactivite.nom}" style="font-size: 17px"/>
+                        
+                        <h:outputText value="Cout initial : " style="font-size: 17px"/>
+                        <h:outputText value="#{tacheController.activiteStructure.cout}" style="font-size: 17px">
+                            <f:convertNumber/>
+                        </h:outputText>
+                        
+                        <h:outputText value="Montant programmé : " style="font-size: 17px"/>
+                        <h:outputText value="#{tacheController.montant_programme}" style="font-size: 17px">
+                            <f:convertNumber/>
+                        </h:outputText>
+                        
+                    </h:panelGrid>
+
+                    <p:dataTable id="datalist_tache" value="#{tacheController.tachedistricts}" var="item"                                     
+                                 paginator="true"
+                                 rowKey="#{item.idtachedistrict}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 style="width: 90%;margin-top:1% !important; text-align:left; margin-left:5%; font-weight: bold; font-style: oblique;"
+                                 rowIndexVar="index"
+                                 emptyMessage="#{langues.vide}"
+                                 widgetVar="fonctionTable"
+                                 draggableColumns="true"
+                                 resizableColumns="true">
+
+                        <f:facet name="header"> 
+                            <h:outputText class="hardBreak" value="#{langues.liste_des_taches}"/>
+                        </f:facet> 
+
+                        <p:column style="width: 50%">
+                            <f:facet name="header">
+                                <h:outputText value="#{langues.libelle}"/>
+                            </f:facet>
+                            <h:outputText class="hardBreak" value="#{item.libelle}"/>
+                        </p:column>
+
+                        <p:column style="width: 10%">
+                            <f:facet name="header">
+                                <h:outputText value="#{langues.cout}"/>
+                            </f:facet>
+                            <h:outputText class="hardBreak" value="#{item.cout}">
+                                <f:convertNumber/>
+                            </h:outputText>  
+                        </p:column>
+
+                        <p:column style="width: 25%">
+                            <f:facet name="header">
+                                <h:outputText value="#{langues.responsable}"/>
+                            </f:facet>
+                            <h:outputText class="hardBreak" value="#{item.responsable}"/>
+                        </p:column>   
+
+                        <p:column style="width: 10%">
+                            <f:facet name="header">
+                                <h:outputText value="#{langues.action}"/>
+                            </f:facet>
+                            <p:commandButton icon="ui-icon-pencil">
+                                <p:ajax event="click" update=":AddTacheCreateForm" listener="#{tacheController.prepareEditTache(item)}" />
+                            </p:commandButton>
+
+                            <p:commandButton icon="ui-icon-trash">
+                                <p:ajax event="click" update="datalist_tache" listener="#{tacheController.deleteTache(item)}" />
+                            </p:commandButton>   
+                        </p:column>
+
+                    </p:dataTable>
+
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <f:view locale="#{loginController.language}">
+            <script type="text/javascript">
+                function checkMatching(value) {
+                    value = document.getElementById("confirmpassword").value;
+                    alert(value);
+                }
+            </script>
+            <h:form id="menuForm" style="font-size: 12px;">
+               
+                <p:poll interval="20" listener="#{loginController.watcher()}" />
+                <p:menubar style="border:none; color: black" styleClass="navbar">
+                    <p:menuitem  value="#{langues.Home}" outcome="/index.xhtml" icon="ui-icon-home"/> 
+
+                    <p:submenu style=" color:  black;" label="#{langues.Securite}" >                    
+                        <p:menuitem id="groupeuser" style="color: black" value="#{langues.groupeutilisateur}" outcome="/groupeutilisateur/List.xhtml"/>
+                        <p:menuitem id="user" style="color: black" value="#{langues.utilisateur}" outcome="/utilisateur/List.xhtml" />                    
+                        <p:menuitem id="compte" style="color: black" value="#{langues.compteutilisateur}" outcome="/compteutilisateur/List.xhtml" />                    
+                        <p:menuitem id="privilege" style="color: black" value="#{langues.privilege}" outcome="/privilege/List.xhtml" />
+                        <p:menuitem style="color: black" value="#{langues.utilisateurdistrict}" outcome="/privilegedistrict/List.xhtml" />
+                        <p:menuitem style="color: black" value="#{langues.activecompte}" outcome="/activercompte/activercompte.xhtml" />
+                        <p:menuitem style="color: black" value="#{langues.desactivecompte}" outcome="/desactivercompte/desactivercompte.xhtml" />
+                        <p:menuitem id="mouchard" style="color: black" value="#{langues.mouchard}" outcome="/mouchard/List.xhtml" />
+                    </p:submenu>
+
+                    <p:submenu label="#{langues.Maintenance}">   
+
+                        <p:submenu  label="#{langues.Cadre_Logique}">
+                            <p:menuitem  value="#{langues.axe_strategique}" outcome="/axe/List" />
+                            <p:menuitem  value="#{langues.sousaxe}" outcome="/sousaxe/List" />
+                            <p:menuitem  value="#{langues.strategie}" outcome="/categorieintervention/List" />                        
+                            <p:menuitem  value="#{langues.interventionpnds}" outcome="/interventionpnds/index" />
+                            <p:menuitem  value="#{langues.objectifop}" outcome="/objectifoperationel/index"/>
+                        </p:submenu>
+
+                        <p:submenu  label="#{langues.Indicateur}">
+                            <p:menuitem  value="#{langues.Categorie_indicateur}" outcome="/categorieindicateur/index" />
+                            <p:menuitem  value="#{langues.periodicite}" outcome="/periodicite/index"/>
+                            <p:menuitem  value="#{langues.unite}" outcome="/unite/index" /> 
+                            <p:menuitem  value="#{langues.Indicateur}" outcome="/indicateur/index" />
+                        </p:submenu>                                        
+
+                        <p:submenu  label="#{langues.anneepopulation}">
+                            <p:menuitem  value="#{langues.Annee}" outcome="/annee/index"/>
+                        </p:submenu>
+
+                        <p:menuitem   value="#{langues.activitee}" outcome="/activite-default/index"/>
+                        <p:menuitem   value="#{langues.resultatattendu}" outcome="/resultatattendu/List"/>
+                        <p:menuitem   value="#{langues.element_cout}" outcome="/element_cout/List"/>
+                        <p:menuitem   value="#{langues.trimestre}" outcome="/trimestre/index"/>
+                        <p:menuitem   value="#{langues.mois}" outcome="/mois/index"/>
+
+                    </p:submenu>
+
+                    <p:submenu label="#{langues.traitements}">                      
+                        <p:menuitem  value="#{langues.introduction_}" outcome="/introduction/index"/>
+                                                  
+                        <p:menuitem rendered="#{loginController.mode.equals('district')}" value="#{langues.taches}" outcome="/taches/index"/>
+                        <p:menuitem rendered="#{loginController.mode.equals('district')}" value="#{langues.chronogramme_}" outcome="/chronogramme_td/index"/>
+                        <p:menuitem rendered="#{loginController.mode.equals('district')}" value="#{langues.programmation}" outcome="/jalon_district/index"/>
+                        <p:menuitem rendered="#{loginController.mode.equals('district')}" value="#{langues.suivi_indicateur}" outcome="/evaluation/index"/>
+                        <p:menuitem rendered="#{loginController.mode.equals('district')}" value="#{langues.performance_}" outcome="/performance_cumulee_d/index"/>
+                        
+                        <p:menuitem rendered="#{loginController.mode.equals('region')}" value="#{langues.taches}" outcome="/taches_region/index"/>
+                        <p:menuitem rendered="#{loginController.mode.equals('region')}" value="#{langues.chronogramme_}" outcome="/chronogramme_tr/index"/>
+                        <p:menuitem rendered="#{loginController.mode.equals('region')}" value="#{langues.programmation}" outcome="/jalon_r/index"/>
+                        <p:menuitem rendered="#{loginController.mode.equals('region')}" value="#{langues.suivi_indicateur}" outcome="/evaluation_region/index"/>
+                        <p:menuitem rendered="#{loginController.mode.equals('region')}" value="#{langues.performance_}" outcome="/performance_cumulee_r/index"/>
+                        
+                    </p:submenu>
+
+                    <p:submenu style=" color:  black;" label="#{langues.analyse}">
+                        <p:menuitem  value="#{langues.pta}" outcome="/imprimer-pdsd/index"/>
+                        <p:menuitem  value="#{langues.suivi_indicateur}" outcome="/imprimer-suivi/index"/>
+                        
+                        <p:menuitem rendered="false" disabled="true" value="Consolidation" outcome="/consolidation/index"/>                        
+                    </p:submenu>
+
+                    <p:menuitem disabled="true" value="#{langues.aide}"/>
+                    <p:menuitem value="#{langues.deconnexion}" style="margin-left:2%;color: red" actionListener="#{loginController.logout()}"/>
+                </p:menubar>
+            </h:form>
+        </f:view>
+    </ui:composition>
+</html>

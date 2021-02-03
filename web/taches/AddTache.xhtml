@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <p:dialog id="AddTacheCreateDlg" 
+                  widgetVar="AddTacheCreateDialog" 
+                  modal="true" resizable="false"
+                  appendTo="@(body)" 
+                  header="#{langues.ajouter_une_tache}"
+                  width="900"
+                  height="500">
+            <h:form id="AddTacheCreateForm">
+
+                <p:growl id="message" showDetail="true"/>
+                <h:panelGroup id="display">
+
+
+                    <h:panelGrid columns="2">
+
+                        <p:outputLabel value="#{langues.Axe}"/>
+                        <p:outputLabel value="#{tacheController.axe.code} - #{loginController.language eq 'en' ? tacheController.axe.nomEn : tacheController.axe.nomFr}"/>
+
+                        <p:outputLabel value="#{langues.sousaxe}"/>
+                        <p:outputLabel value="#{tacheController.sousaxe.code} - #{loginController.language eq 'en' ? tacheController.sousaxe.nomEn : tacheController.sousaxe.nomFr}"/>
+
+                        <p:outputLabel value="#{langues.interventionpnds}"/>
+                        <p:inputTextarea id="intervention" disabled="true" cols="120" rows="5" value="#{loginController.language eq 'en' ? tacheController.tachedistrict.idactivitestructure.idactivite.idprobleme.idindicateurDistrict.idindicateur.idinterventionpnds.nomEn  : tacheController.tachedistrict.idactivitestructure.idactivite.idprobleme.idindicateurDistrict.idindicateur.idinterventionpnds.nomFr}"/>
+
+                        <p:outputLabel value="#{langues.Indicateur}" />
+                        <p:outputLabel value="#{loginController.language eq 'en' ? tacheController.tachedistrict.idactivitestructure.idactivite.idresultatattendu.idindicateur.nomEn : tacheController.tachedistrict.idactivitestructure.idactivite.idresultatattendu.idindicateur.nomFr}" />                                                                        
+
+                        <p:outputLabel value="#{langues.activitee}" />
+                        <p:outputLabel value="#{tacheController.tachedistrict.idactivitestructure.idactivite.nom}" />                                                                        
+
+                        <p:outputLabel for="correction" value="#{langues.libelle}"/>
+                        <p:inputTextarea id="correction" required="true" requiredMessage="#{langues.activite_correctrice} : #{langues.requis}" cols="120" rows="4" value="#{tacheController.tachedistrict.libelle}"/>
+
+                        <p:outputLabel for="montant" value="#{langues.montant}"/>
+                        <p:inputText id="montant" required="true" requiredMessage="#{langues.montant} : #{langues.requis}" value="#{tacheController.tachedistrict.cout}">
+                            <f:convertNumber/>
+                            <p:ajax event="keyup" />
+                        </p:inputText>
+
+                        <p:outputLabel for="responsable" value="#{langues.CreateActiviteLabel_responsable}"/>
+                        <p:inputText id="responsable" style="width: 200px" value="#{tacheController.tachedistrict.responsable}"/>
+
+                    </h:panelGrid>
+
+                    <p:separator />
+
+                    <p:selectManyCheckbox id="grid2" value="#{tacheController.selectedP}" layout="responsive" columns="4" converter="periodeRatConverter" required="true">
+                        <f:selectItems value="#{tacheController.periodederattachements}" var="term" itemLabel="#{term.nom}" itemValue="#{term}" />
+                    </p:selectManyCheckbox>
+
+                    <p:separator />
+
+                    <center>
+                        <p:commandButton style="color: red;" icon="ui-icon-close" value="#{langues.Cancel}" onclick="PF('AddTacheCreateDialog').hide()"/>
+                        <p:commandButton  icon="ui-icon-check" value="#{langues.Valider}" actionListener="#{tacheController.create()}" update="display,:TacheCreateForm:datalist_tache,message"/>
+                    </center>
+
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

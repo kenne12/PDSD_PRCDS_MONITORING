@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <h:form id="TacheListForm">
+
+        <p:growl id="growl" showDetail="true"/>
+
+        <br/>
+
+        <center>
+            <h2>#{langues.activites} / #{langues.taches} / #{tacheController.annee.nom}</h2>
+        </center>
+
+        <p:contextMenu id="ExercieDataTableContextMenu" for="datalist">  
+            <p:menuitem value="#{langues.Edit}" onclick="document.getElementById('TacheListForm:editButton').click();" icon="ui-icon-pencil"/>            
+            <p:separator/>                 
+        </p:contextMenu>
+
+        <br/>
+
+        <p:panel style="background-color: blanchedalmond" id="axe" header="#{tacheController.axe.code} - #{loginController.language eq 'en' ? tacheController.axe.nomEn : tacheController.axe.nomFr}">
+
+            <p:panel id="sousaxe" header="#{tacheController.sousaxe.code} - #{loginController.language eq 'en' ? tacheController.sousaxe.nomEn : tacheController.sousaxe.nomFr}">
+
+                <p:dataTable id="datalist"
+                             value="#{tacheController.activiteStructures}"
+                             var="item"
+                             rowKey="#{item.idactiviteStructure}"
+                             paginator="true"
+                             rows="100"
+                             style="width: 100%;"
+                             rowIndexVar="index"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             selectionMode="single"
+                             draggableColumns="true"
+                             resizableColumns="true"
+                             scrollHeight="100"
+                             selection="#{tacheController.activiteStructure}"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+
+                    <p:ajax event="rowSelect" update="" listener="#{tacheController.activeButton()}" />
+                    <p:ajax event="rowDblselect" onsuccess="document.getElementById('TacheListForm:viewButton').click();" listener="#{tacheController.activeButton()}"/>
+
+                    <p:columnGroup type="header">                                                              
+                        <p:row>
+                            <p:column rowspan="2" colspan="2"  headerText="#{langues.interventionpnds}"/>
+                            <p:column rowspan="2" colspan="2" headerText="#{langues.objectif_opérationnel}"/>
+                            <p:column rowspan="2" colspan="3" headerText="#{langues.Active}"/>
+                            <p:column rowspan="2" headerText="#{langues.CreateActiviteLabel_responsable}"/>
+                            <p:column headerText="#{langues.action}"/>
+                        </p:row>
+                    </p:columnGroup>
+
+                    <p:column style="height: 40px;word-wrap: break-word" colspan="2">
+                        <h:outputText class="hardBreak" value="#{item.idactivite.idprobleme.idindicateurDistrict.idindicateur.idinterventionpnds.code} - #{loginController.language eq 'en' ? item.idactivite.idprobleme.idindicateurDistrict.idindicateur.idinterventionpnds.nomEn : item.idactivite.idprobleme.idindicateurDistrict.idindicateur.idinterventionpnds.nomFr}"/>
+                    </p:column>
+
+                    <p:column colspan="2">
+                        <h:outputText class="hardBreak" value="#{item.idactivite.ididobjectifOpp.objectif}" />
+                    </p:column>
+
+                    <p:column colspan="3">
+                        <h:outputText class="hardBreak" value="#{item.idactivite.nom}"/>
+                    </p:column>
+
+                    <p:column>
+                        <h:outputText class="hardBreak" value="#{item.idactivite.responsable}" />
+                    </p:column>
+
+                    <p:column >
+                        <p:commandButton icon="ui-icon-plus" value="#{tacheController.countTache(item)} #{langues.taches}" >
+                            <p:ajax event="click" update=":TacheCreateForm" listener="#{tacheController.openTacheDialog(item)}" />
+                        </p:commandButton>                                     
+                    </p:column>
+
+                </p:dataTable>
+
+                <h:panelGrid style="width: 70%;margin-left: 15%" columns="2">
+                    <p:commandButton value="#{langues.sous_axe_precedent}" update="axe,sousaxe,datalist" actionListener="#{tacheController.precSousAxe()}" oncomplete="javascript:location.reload();"/>
+                    <p:commandButton value="#{langues.sous_axe_suivant}" update="axe,sousaxe,datalist" style="margin-left: 50%" actionListener="#{tacheController.nextSousaxe()}" oncomplete="javascript:location.reload();"/>
+                </h:panelGrid>
+
+            </p:panel>
+
+            <h:panelGrid style="width: 80%;margin-left: 10%" columns="2">
+                <p:commandButton value="#{langues.axe_precedent}" update="axe,sousaxe,datalist" actionListener="#{tacheController.precAxe()}" oncomplete="javascript:location.reload();"/>
+                <p:commandButton style="margin-left: 60%" value="#{langues.axe_suivant}" update="axe,sousaxe,datalist" actionListener="#{tacheController.nextAxe()}" oncomplete="javascript:location.reload();"/>
+            </h:panelGrid>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+
+    </h:form>
+</ui:composition>
